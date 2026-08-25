@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 
 type Point = { x: number; y: number };
 
-import { ContentPanel, AssessmentSession } from '@english-studio/ui-shared';
+import { ContentPanel } from '../../ui-shared/src/ui/ContentPanel';
+import { AssessmentSession } from '../../ui-shared/src/assessment/AssessmentSession';
 
 export default function NetworkViewClient() {
   const router = useRouter();

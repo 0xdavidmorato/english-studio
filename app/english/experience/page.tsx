@@ -43,7 +43,7 @@ export default function ExperiencePage() {
     connections: [],
     clusters: [{ id: 'english', name: 'English', description: 'English core', nodeIds: ['core','listening','speaking','reading','writing'] }],
     journeys: [],
-    narrativeTimeline: [],
+    narrativeTimeline: ['initialization'],
   } as any;
 
   return (
