@@ -333,3 +333,4 @@ button { color: inherit; font: inherit; }
   .experience:not(.motion-on) *, .experience:not(.motion-on) *::before, .experience:not(.motion-on) *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .experience:not(.motion-on) .energy-trail, .experience:not(.motion-on) .core-pulse-ring { display: none; }
 }
+\n/* English card styles injected by assistant */\n.english-card { padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(104, 198, 217, 0.06); box-shadow: 0 8px 24px rgba(0,0,0,0.45); color: var(--ink); }\n.english-card h2, .english-card h3 { margin: 0 0 8px 0; }\n.english-card p { margin: 0; color: #c9dee2 }\n
