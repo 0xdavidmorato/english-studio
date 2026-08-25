@@ -426,6 +426,11 @@ button { color: inherit; font: inherit; }
   100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
 }
 
+/* node content: icon + counter */
+.node-content { display: grid; gap: 6px; place-items: center; position: relative; z-index: 3; }
+.node-icon { font-size: 22px; }
+.node-counter { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.35); padding: 4px 6px; border-radius: 999px; font-size: 11px; color: #cfeff2; border: 1px solid rgba(104,198,217,0.08); }
+
 /* energy trail animation (lines) */
 .energy-trail { stroke-dasharray: 180; stroke-dashoffset: 180; animation: trail-flow 3.8s linear infinite; stroke-linecap: round; }
 @keyframes trail-flow { to { stroke-dashoffset: -190; } }
