@@ -1,9 +1,7 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { colors } from '@english-studio/ui-shared';
-
-const NetworkViewClient = dynamic(() => import('./NetworkViewClient'), { ssr: false });
+import NetworkViewClient from './NetworkViewClient';
 
 export default function EnglishCore() {
   return (
