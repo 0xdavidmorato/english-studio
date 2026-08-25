@@ -1,23 +1,25 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { colors } from '@english-studio/ui-shared';
+
+const NetworkViewClient = dynamic(() => import('./NetworkViewClient'), { ssr: false });
 
 export default function EnglishCore() {
   return (
     <main className="experience" style={{ padding: 32, minHeight: '100vh', background: colors.background, color: colors.ink }}>
       <div className="network-shell">
         <div className="knowledge-network" style={{ pointerEvents: 'none' }}>
-          <div className="tangle-core" role="img" aria-label="English core">
-            <div className="core-orb" style={{ width: 160, height: 160, display: 'grid', placeItems: 'center' }}>
-              <span className="core-word-core" style={{ fontSize: 18, letterSpacing: '0.18em' }}>ENGLISH</span>
-            </div>
+          {/* client-side interactive network */}
+          <div style={{ position: 'relative', width: '100%', height: 420 }}>
+            {/* NetworkViewClient is a client component that measures elements and draws SVG lines */}
+            {/* Replace static markup with client component */}
+            <React.Suspense fallback={<div style={{ height: 420 }} /> }>
+              {/* Dynamic import to avoid server-side rendering issues */}
+              <NetworkViewClient />
+            </React.Suspense>
           </div>
-          <div className="network-node node-top">Listening</div>
-          <div className="network-node node-right">Speaking</div>
-          <div className="network-node node-bottom">Reading</div>
-          <div className="network-node node-left">Writing</div>
         </div>
-        <div style={{ pointerEvents: 'all', width: '100%', maxWidth: 1200, padding: '40px 20px' }}>
           <h1 style={{ marginBottom: 8 }}>English Studio — Core</h1>
           <p style={{ color: colors.muted }}>Nó central: as 4 habilidades fundamentais do inglês</p>
 

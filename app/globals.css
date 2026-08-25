@@ -404,3 +404,36 @@ button { color: inherit; font: inherit; }
   opacity: 0.9;
 }
 
+/* node halo + pulse */
+.node-halo {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(66,231,242,0.08), transparent 40%);
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 2;
+  animation: halo-pulse 4s ease-in-out infinite;
+}
+
+@keyframes halo-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.06); opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+}
+
+/* energy trail animation (lines) */
+.energy-trail { stroke-dasharray: 180; stroke-dashoffset: 180; animation: trail-flow 3.8s linear infinite; stroke-linecap: round; }
+@keyframes trail-flow { to { stroke-dashoffset: -190; } }
+
+/* small responsiveness */
+@media (max-width: 720px) {
+  .knowledge-network { height: 320px; }
+  .network-node { width: 96px; height: 96px; }
+  .core-orb { width: 120px; height: 120px; }
+}
+
