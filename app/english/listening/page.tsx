@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import MarkdownContent from '../../components/MarkdownContent';
-import { colors } from '@english-studio/ui-shared';
+import { colors, AssessmentSession } from '@english-studio/ui-shared';
 import { QuizPanel } from '../../../ui-shared/src/ui/QuizPanel';
 
 export default function ListeningPage(){
@@ -15,12 +15,47 @@ export default function ListeningPage(){
     ],
   };
 
-  const sampleProgress: any = { nodeId: 'english.listening', isRead: false, attempts: [], latestResult: null, bestResult: null, isPassed: false };
+  const STORAGE_KEY = 'assessmentSession.v1';
+  const sampleProgressDefault: any = { nodeId: 'english.listening', isRead: false, attempts: [], latestResult: null, bestResult: null, isPassed: false };
+
+  const sessionRef = useRef<AssessmentSession | null>(null);
+  const [progress, setProgress] = useState<any>(sampleProgressDefault);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const snapshot = JSON.parse(raw);
+        sessionRef.current = AssessmentSession.fromSnapshot(snapshot);
+      } else {
+        sessionRef.current = new AssessmentSession();
+      }
+    } catch (e) {
+      sessionRef.current = new AssessmentSession();
+    }
+
+    // mark as read whenever the lesson is opened and persist
+    sessionRef.current.markContentRead(sampleQuiz.nodeId);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
+    } catch (e) {
+      // ignore storage errors
+    }
+
+    setProgress(sessionRef.current.getProgress(sampleQuiz.nodeId));
+  }, []);
 
   function handleQuizSubmit(answers: readonly any[]) {
-    // simple wrapper to use local scoring logic from ui-shared assessment on the client if needed
-    // For now, just return a fake result to the QuizPanel
-    const result = { nodeId: sampleQuiz.nodeId, totalQuestions: sampleQuiz.questions.length, correctAnswers: 2, score: 10, passed: true, questions: [] };
+    if (!sessionRef.current) sessionRef.current = new AssessmentSession();
+    const result = sessionRef.current.submit(sampleQuiz, answers);
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
+    } catch (e) {
+      // ignore storage errors
+    }
+
+    setProgress(sessionRef.current.getProgress(sampleQuiz.nodeId));
     return result;
   }
 
