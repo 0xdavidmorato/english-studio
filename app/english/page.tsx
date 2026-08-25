@@ -20,6 +20,7 @@ export default function EnglishCore() {
             </React.Suspense>
           </div>
         </div>
+        <div style={{ pointerEvents: 'all', width: '100%', maxWidth: 1200, padding: '40px 20px' }}>
           <h1 style={{ marginBottom: 8 }}>English Studio — Core</h1>
           <p style={{ color: colors.muted }}>Nó central: as 4 habilidades fundamentais do inglês</p>
 
