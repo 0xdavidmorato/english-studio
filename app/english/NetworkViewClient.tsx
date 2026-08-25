@@ -17,6 +17,8 @@ export default function NetworkViewClient() {
   const [lines, setLines] = useState<{ from: Point; to: Point }[]>([]);
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [markdownContent, setMarkdownContent] = useState<string>('');
+  const [loadingContent, setLoadingContent] = useState(false);
   const sessionRef = useRef<AssessmentSession | null>(null);
   const STORAGE_KEY = 'assessmentSession.v1';
   const [progressByNode, setProgressByNode] = useState<Record<string, any>>({});
@@ -77,7 +79,7 @@ export default function NetworkViewClient() {
     };
   }, []);
 
-  function openPanel(label: string) {
+  async function openPanel(label: string) {
     const idMap: Record<string, string> = {
       Listening: 'english.listening',
       Speaking: 'english.speaking',
@@ -86,9 +88,19 @@ export default function NetworkViewClient() {
     };
     const nodeId = idMap[label]!;
     if (!sessionRef.current) loadSession();
+
+    // mark as read immediately
     sessionRef.current!.markContentRead(nodeId);
     persist();
     updateProgress(nodeId);
+
+    // load markdown content for the node before showing the panel
+    setMarkdownContent('');
+    setLoadingContent(true);
+    const md = await fetchMarkdownFor(label);
+    setMarkdownContent(md);
+    setLoadingContent(false);
+
     setSelectedNode(label);
   }
 
@@ -132,6 +144,7 @@ export default function NetworkViewClient() {
 
   function closePanel() {
     setSelectedNode(null);
+    setMarkdownContent('');
   }
 
   return (
@@ -194,7 +207,7 @@ export default function NetworkViewClient() {
         <div>
           <ContentPanel
             node={{ id: selectedNode.toLowerCase(), name: selectedNode, clusterName: 'English' } as any}
-            markdown={''}
+            markdown={markdownContent}
             quiz={null}
             assessmentProgress={sessionRef.current ? sessionRef.current.getProgress('english.' + selectedNode.toLowerCase()) : null}
             onQuizSubmit={(answers) => onQuizSubmit(answers)}
