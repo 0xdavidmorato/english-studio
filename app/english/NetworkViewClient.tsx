@@ -84,7 +84,7 @@ export default function NetworkViewClient() {
       Reading: 'english.reading',
       Writing: 'english.writing',
     };
-    const nodeId = idMap[label];
+    const nodeId = idMap[label]!;
     if (!sessionRef.current) loadSession();
     sessionRef.current!.markContentRead(nodeId);
     persist();
@@ -101,7 +101,7 @@ export default function NetworkViewClient() {
     } catch (e) { return ''; }
   }
 
-  async function onQuizSubmit(answers: readonly any[]) {
+  function onQuizSubmit(answers: readonly any[]) {
     if (!selectedNode) throw new Error('No node');
     const idMap: Record<string, string> = {
       Listening: 'english.listening',
@@ -109,13 +109,25 @@ export default function NetworkViewClient() {
       Reading: 'english.reading',
       Writing: 'english.writing',
     };
-    const nodeId = idMap[selectedNode];
+    const nodeId = idMap[selectedNode]!;
     if (!sessionRef.current) loadSession();
-    // For now we have no quiz object here; if present, submit would use it
-    // We'll just persist the snapshot (no scoring) and update progress
-    persist();
+    // No quiz object available here; simulate a QuizResult and persist
+    const result = {
+      nodeId,
+      totalQuestions: 0,
+      correctAnswers: 0,
+      score: 0,
+      passed: false,
+      questions: [] as any[],
+    };
+    // store as an attempt so progress changes can be seen
+    try {
+      const attempts = sessionRef.current!.toSnapshot().attemptsByNodeId[nodeId] ?? [];
+      // Not using AssessmentSession.submit when quiz isn't available; just persist snapshot
+      persist();
+    } catch (e) {}
     updateProgress(nodeId);
-    return { nodeId, totalQuestions: 0, correctAnswers: 0, score: 0, passed: false, questions: [] };
+    return result;
   }
 
   function closePanel() {
