@@ -6,6 +6,17 @@ export default function EnglishCore() {
   return (
     <main className="experience" style={{ padding: 32, minHeight: '100vh', background: colors.background, color: colors.ink }}>
       <div className="network-shell">
+        <div className="knowledge-network" style={{ pointerEvents: 'none' }}>
+          <div className="tangle-core" role="img" aria-label="English core">
+            <div className="core-orb" style={{ width: 160, height: 160, display: 'grid', placeItems: 'center' }}>
+              <span className="core-word-core" style={{ fontSize: 18, letterSpacing: '0.18em' }}>ENGLISH</span>
+            </div>
+          </div>
+          <div className="network-node node-top">Listening</div>
+          <div className="network-node node-right">Speaking</div>
+          <div className="network-node node-bottom">Reading</div>
+          <div className="network-node node-left">Writing</div>
+        </div>
         <div style={{ pointerEvents: 'all', width: '100%', maxWidth: 1200, padding: '40px 20px' }}>
           <h1 style={{ marginBottom: 8 }}>English Studio — Core</h1>
           <p style={{ color: colors.muted }}>Nó central: as 4 habilidades fundamentais do inglês</p>

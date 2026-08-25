@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TANGLE — Tudo está ligado",
-  description: "Uma experiência interativa de conhecimento organizacional.",
+  title: "English Studio — Estude e treine inglês",
+  description: "Plataforma para estudar e treinar as quatro habilidades do inglês (Listening, Speaking, Reading, Writing).",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
