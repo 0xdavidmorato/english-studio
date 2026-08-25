@@ -17,12 +17,12 @@ export default function NetworkViewClient() {
   function measure() {
     const els = [coreRef.current, topRef.current, rightRef.current, bottomRef.current, leftRef.current];
     if (!els[0]) return;
-    const rects = els.map((el) => el?.getBoundingClientRect() ?? null);
+    const rects = els.map((el) => (el ? el.getBoundingClientRect() : null));
     const container = coreRef.current?.offsetParent as HTMLElement | null;
-    const containerRect = container?.getBoundingClientRect();
+    const containerRect = container ? container.getBoundingClientRect() : null;
     if (!containerRect) return;
 
-    const center = (r: DOMRect | null): Point => ({ x: (r!.left + r!.right) / 2 - containerRect.left, y: (r!.top + r!.bottom) / 2 - containerRect.top });
+    const center = (r: DOMRect | null): Point => ({ x: ((r!.left + r!.right) / 2) - containerRect.left, y: ((r!.top + r!.bottom) / 2) - containerRect.top });
     const c = center(rects[0]);
     const others = rects.slice(1).map((r) => center(r));
     setLines(others.map((pt) => ({ from: c, to: pt })));
