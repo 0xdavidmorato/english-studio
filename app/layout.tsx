@@ -10,7 +10,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt">
-      <body>{children}</body>
+      <body>
+        <header className="experience-header">
+          <div className="brand">
+            <img src="/assets/logo_david.png" alt="Logo" className="brand-logo" />
+          </div>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
