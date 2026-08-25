@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 
 type Point = { x: number; y: number };
 
+import { ContentPanel, AssessmentSession } from '@english-studio/ui-shared';
+
 export default function NetworkViewClient() {
   const router = useRouter();
   const coreRef = useRef<HTMLDivElement | null>(null);
@@ -13,6 +15,41 @@ export default function NetworkViewClient() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const leftRef = useRef<HTMLDivElement | null>(null);
   const [lines, setLines] = useState<{ from: Point; to: Point }[]>([]);
+
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const sessionRef = useRef<AssessmentSession | null>(null);
+  const STORAGE_KEY = 'assessmentSession.v1';
+  const [progressByNode, setProgressByNode] = useState<Record<string, any>>({});
+
+  function loadSession() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        sessionRef.current = AssessmentSession.fromSnapshot(JSON.parse(raw));
+      } else {
+        sessionRef.current = new AssessmentSession();
+      }
+    } catch (e) {
+      sessionRef.current = new AssessmentSession();
+    }
+  }
+
+  function persist() {
+    if (!sessionRef.current) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
+    } catch (e) {}
+  }
+
+  function updateProgress(nodeId: string) {
+    if (!sessionRef.current) return;
+    setProgressByNode((p) => ({ ...p, [nodeId]: sessionRef.current!.getProgress(nodeId) }));
+  }
+
+  useEffect(() => {
+    loadSession();
+    ['english.listening', 'english.speaking', 'english.reading', 'english.writing'].forEach(updateProgress);
+  }, []);
 
   function measure() {
     const els = [coreRef.current, topRef.current, rightRef.current, bottomRef.current, leftRef.current];
@@ -26,7 +63,6 @@ export default function NetworkViewClient() {
     const c = center(rects[0] ?? null);
     const others = rects.slice(1).map((r) => center(r ?? null));
     setLines(others.map((pt) => ({ from: c, to: pt })));
-
   }
 
   useEffect(() => {
@@ -41,16 +77,49 @@ export default function NetworkViewClient() {
     };
   }, []);
 
-  function goTo(node: string) {
-    // map node to route
-    const map: Record<string, string> = {
-      Listening: '/english/listening',
-      Speaking: '/english/speaking',
-      Reading: '/english/reading',
-      Writing: '/english/writing',
+  function openPanel(label: string) {
+    const idMap: Record<string, string> = {
+      Listening: 'english.listening',
+      Speaking: 'english.speaking',
+      Reading: 'english.reading',
+      Writing: 'english.writing',
     };
-    const route = map[node];
-    if (route) router.push(route);
+    const nodeId = idMap[label];
+    if (!sessionRef.current) loadSession();
+    sessionRef.current!.markContentRead(nodeId);
+    persist();
+    updateProgress(nodeId);
+    setSelectedNode(label);
+  }
+
+  async function fetchMarkdownFor(nodeLabel: string) {
+    const key = nodeLabel.toLowerCase();
+    try {
+      const res = await fetch(`/content/english/${key}.md`);
+      if (!res.ok) return '';
+      return await res.text();
+    } catch (e) { return ''; }
+  }
+
+  async function onQuizSubmit(answers: readonly any[]) {
+    if (!selectedNode) throw new Error('No node');
+    const idMap: Record<string, string> = {
+      Listening: 'english.listening',
+      Speaking: 'english.speaking',
+      Reading: 'english.reading',
+      Writing: 'english.writing',
+    };
+    const nodeId = idMap[selectedNode];
+    if (!sessionRef.current) loadSession();
+    // For now we have no quiz object here; if present, submit would use it
+    // We'll just persist the snapshot (no scoring) and update progress
+    persist();
+    updateProgress(nodeId);
+    return { nodeId, totalQuestions: 0, correctAnswers: 0, score: 0, passed: false, questions: [] };
+  }
+
+  function closePanel() {
+    setSelectedNode(null);
   }
 
   return (
@@ -73,25 +142,55 @@ export default function NetworkViewClient() {
         </div>
       </div>
 
-      <div ref={topRef} className="network-node node-top" onClick={() => goTo('Listening')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
+      <div ref={topRef} className="network-node node-top" onClick={() => openPanel('Listening')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
         <div className="node-halo" />
-        <div>Listening</div>
+        <div className="node-content">
+          <div className="node-icon">🔊</div>
+          <div>Listening</div>
+          <div className="node-counter">{progressByNode['english.listening']?.attempts?.length ?? 0}</div>
+        </div>
       </div>
 
-      <div ref={rightRef} className="network-node node-right" onClick={() => goTo('Speaking')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
+      <div ref={rightRef} className="network-node node-right" onClick={() => openPanel('Speaking')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
         <div className="node-halo" />
-        <div>Speaking</div>
+        <div className="node-content">
+          <div className="node-icon">🗣️</div>
+          <div>Speaking</div>
+          <div className="node-counter">{progressByNode['english.speaking']?.attempts?.length ?? 0}</div>
+        </div>
       </div>
 
-      <div ref={bottomRef} className="network-node node-bottom" onClick={() => goTo('Reading')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
+      <div ref={bottomRef} className="network-node node-bottom" onClick={() => openPanel('Reading')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
         <div className="node-halo" />
-        <div>Reading</div>
+        <div className="node-content">
+          <div className="node-icon">📖</div>
+          <div>Reading</div>
+          <div className="node-counter">{progressByNode['english.reading']?.attempts?.length ?? 0}</div>
+        </div>
       </div>
 
-      <div ref={leftRef} className="network-node node-left" onClick={() => goTo('Writing')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
+      <div ref={leftRef} className="network-node node-left" onClick={() => openPanel('Writing')} style={{ cursor: 'pointer', pointerEvents: 'all' }}>
         <div className="node-halo" />
-        <div>Writing</div>
+        <div className="node-content">
+          <div className="node-icon">✍️</div>
+          <div>Writing</div>
+          <div className="node-counter">{progressByNode['english.writing']?.attempts?.length ?? 0}</div>
+        </div>
       </div>
+
+      {selectedNode ? (
+        <div>
+          <ContentPanel
+            node={{ id: selectedNode.toLowerCase(), name: selectedNode, clusterName: 'English' } as any}
+            markdown={''}
+            quiz={null}
+            assessmentProgress={sessionRef.current ? sessionRef.current.getProgress('english.' + selectedNode.toLowerCase()) : null}
+            onQuizSubmit={(answers) => onQuizSubmit(answers)}
+            onClose={closePanel}
+            onComplete={() => { closePanel(); }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
