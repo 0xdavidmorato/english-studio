@@ -20,6 +20,20 @@ export default function ListeningPage(){
 
   const sessionRef = useRef<AssessmentSession | null>(null);
   const [progress, setProgress] = useState<any>(sampleProgressDefault);
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+
+  function persistSessionSnapshot() {
+    if (!sessionRef.current) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
+      const now = new Date();
+      setSavedAt(now);
+      // clear indicator after 3.5s
+      setTimeout(() => setSavedAt((prev) => (prev === now ? null : prev)), 3500);
+    } catch (e) {
+      // ignore storage errors
+    }
+  }
 
   useEffect(() => {
     try {
@@ -36,11 +50,7 @@ export default function ListeningPage(){
 
     // mark as read whenever the lesson is opened and persist
     sessionRef.current.markContentRead(sampleQuiz.nodeId);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
-    } catch (e) {
-      // ignore storage errors
-    }
+    persistSessionSnapshot();
 
     setProgress(sessionRef.current.getProgress(sampleQuiz.nodeId));
   }, []);
@@ -49,14 +59,23 @@ export default function ListeningPage(){
     if (!sessionRef.current) sessionRef.current = new AssessmentSession();
     const result = sessionRef.current.submit(sampleQuiz, answers);
 
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionRef.current.toSnapshot()));
-    } catch (e) {
-      // ignore storage errors
-    }
+    persistSessionSnapshot();
 
     setProgress(sessionRef.current.getProgress(sampleQuiz.nodeId));
     return result;
+  }
+
+  function resetProgress() {
+    if (!window.confirm('Reiniciar progresso desta sessão? Esta ação irá apagar o progresso salvo localmente para este dispositivo.')) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      // ignore
+    }
+    sessionRef.current = new AssessmentSession();
+    // immediately mark as not read and save fresh snapshot
+    setProgress(sessionRef.current.getProgress(sampleQuiz.nodeId));
+    persistSessionSnapshot();
   }
 
   return (
@@ -69,7 +88,14 @@ export default function ListeningPage(){
         </div>
 
         <div style={{ marginTop: 18 }}>
-          <strong>Quiz de exemplo</strong>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <strong>Quiz de exemplo</strong>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              {savedAt ? <small style={{ color: '#7fd89f' }}>Progresso salvo {savedAt.toLocaleTimeString()}</small> : <small style={{ color: '#9aa0a6' }}>Progresso não salvo</small>}
+              <button type="button" onClick={resetProgress} style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: 'inherit' }}>Resetar progresso</button>
+            </div>
+          </div>
+
           <div style={{ marginTop: 8 }}>
             <QuizPanel quiz={sampleQuiz} progress={progress} onBack={() => {}} onSubmit={handleQuizSubmit} />
           </div>
