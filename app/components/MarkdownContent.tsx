@@ -1,1 +1,32 @@
-"use client";\n\nimport { useEffect, useState } from "react";\nimport ReactMarkdown from "react-markdown";\n\ninterface Props { src: string }\n\nexport default function MarkdownContent({ src }: Props) {\n  const [content, setContent] = useState<string | null>(null);\n  const [error, setError] = useState<string | null>(null);\n\n  useEffect(() => {\n    let mounted = true;\n    async function load() {\n      try {\n        const res = await fetch(src);\n        if (!res.ok) throw new Error(`Failed to fetch ${src}: ${res.status}`);\n        const text = await res.text();\n        if (mounted) setContent(text);\n      } catch (err: any) {\n        if (mounted) setError(err.message ?? String(err));\n      }\n    }\n    load();\n    return () => { mounted = false };\n  }, [src]);\n\n  if (error) return <div style={{ color: "#f88" }}>Erro ao carregar conteúdo: {error}</div>;\n  if (!content) return <div>Carregando conteúdo…</div>;\n\n  return <article className="markdown-content"><ReactMarkdown>{content}</ReactMarkdown></article>;\n}\n
+"use client";
+
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+
+interface Props { src: string }
+
+export default function MarkdownContent({ src }: Props) {
+  const [content, setContent] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        const res = await fetch(src);
+        if (!res.ok) throw new Error(`Failed to fetch ${src}: ${res.status}`);
+        const text = await res.text();
+        if (mounted) setContent(text);
+      } catch (err: any) {
+        if (mounted) setError(err.message ?? String(err));
+      }
+    }
+    load();
+    return () => { mounted = false };
+  }, [src]);
+
+  if (error) return <div style={{ color: "#f88" }}>Erro ao carregar conteúdo: {error}</div>;
+  if (!content) return <div>Carregando conteúdo…</div>;
+
+  return <article className="markdown-content"><ReactMarkdown>{content}</ReactMarkdown></article>;
+}
