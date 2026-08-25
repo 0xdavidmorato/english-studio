@@ -4,7 +4,7 @@ import { colors } from '@english-studio/ui-shared';
 
 export default function EnglishCore() {
   return (
-    <main style={{ padding: 32, minHeight: '100vh', background: colors.background, color: colors.ink }}>
+    <main className="experience" style={{ padding: 32, minHeight: '100vh', background: colors.background, color: colors.ink }}>
       <h1 style={{ marginBottom: 8 }}>English Studio — Core</h1>
       <p style={{ color: colors.muted }}>Nó central: as 4 habilidades fundamentais do inglês</p>
 
