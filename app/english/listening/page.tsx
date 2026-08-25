@@ -71,7 +71,7 @@ export default function ListeningPage(){
         <div style={{ marginTop: 18 }}>
           <strong>Quiz de exemplo</strong>
           <div style={{ marginTop: 8 }}>
-            <QuizPanel quiz={sampleQuiz} progress={sampleProgress} onBack={() => {}} onSubmit={(answers) => handleQuizSubmit(answers)} />
+            <QuizPanel quiz={sampleQuiz} progress={progress} onBack={() => {}} onSubmit={handleQuizSubmit} />
           </div>
         </div>
 
