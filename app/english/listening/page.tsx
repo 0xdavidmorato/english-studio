@@ -17,7 +17,7 @@ export default function ListeningPage(){
 
   const sampleProgress: any = { nodeId: 'english.listening', isRead: false, attempts: [], latestResult: null, bestResult: null, isPassed: false };
 
-  function handleQuizSubmit(answers: any[]) {
+  function handleQuizSubmit(answers: readonly any[]) {
     // simple wrapper to use local scoring logic from ui-shared assessment on the client if needed
     // For now, just return a fake result to the QuizPanel
     const result = { nodeId: sampleQuiz.nodeId, totalQuestions: sampleQuiz.questions.length, correctAnswers: 2, score: 10, passed: true, questions: [] };
