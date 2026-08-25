@@ -23,9 +23,10 @@ export default function NetworkViewClient() {
     if (!containerRect) return;
 
     const center = (r: DOMRect | null): Point => ({ x: ((r!.left + r!.right) / 2) - containerRect.left, y: ((r!.top + r!.bottom) / 2) - containerRect.top });
-    const c = center(rects[0]);
-    const others = rects.slice(1).map((r) => center(r));
+    const c = center(rects[0] ?? null);
+    const others = rects.slice(1).map((r) => center(r ?? null));
     setLines(others.map((pt) => ({ from: c, to: pt })));
+
   }
 
   useEffect(() => {
