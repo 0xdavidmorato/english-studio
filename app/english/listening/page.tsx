@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import MarkdownContent from '../../components/MarkdownContent';
 import { colors } from '@english-studio/ui-shared';
-import { QuizPanel } from '../../ui-shared/src/ui/QuizPanel';
+import { QuizPanel } from '../../../ui-shared/src/ui/QuizPanel';
 
 export default function ListeningPage(){
   const sampleQuiz: any = {
