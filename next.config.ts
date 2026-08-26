@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const isGitHubPages = process.env.GITHUB_ACTIONS === "true"
   && process.env.PLAYWRIGHT_TEST !== "true";
-const repositoryBasePath = "/tangle";
+const repositoryBasePath = "/english-studio";
 
 const nextConfig: NextConfig = {
   output: "export",

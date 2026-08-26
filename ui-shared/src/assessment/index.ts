@@ -19,4 +19,4 @@ export type {
   AssessmentSessionSnapshot,
   NodeAssessmentProgress,
 } from "./AssessmentSession";
-export { getQuizForNode, tangleQuizzes } from "./tangleQuizzes";
+export { getQuizForNode, englishStudioQuizzes } from "./englishStudioQuizzes";

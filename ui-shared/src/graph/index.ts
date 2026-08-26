@@ -14,4 +14,4 @@ export type { VisualState } from "./VisualState";
 export type { Graph } from "./Graph";
 export type { GlobalState } from "./GlobalState";
 export type { NarrativeTimeline } from "./NarrativeTimeline";
-export { tangleGraph } from "./tangleGraph";
+export { englishStudioGraph } from "./englishStudioGraph";

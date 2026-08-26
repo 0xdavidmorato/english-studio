@@ -9,5 +9,5 @@ export type {
 export type { JourneyState } from "./JourneyState";
 export type { TimelineStage } from "./Timeline";
 export type { Engine } from "./Engine";
-export { TangleEngine } from "./TangleEngine";
+export { EnglishStudioEngine } from "./EnglishStudioEngine";
 export type { Timeline } from "./Timeline";

@@ -13,16 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/0xdavidmorato/tangle.git"
+    "url": "git+https://github.com/0xdavidmorato/english-studio.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["english", "learning", "study", "listening", "speaking", "reading", "writing", "quizzes", "certificate"],
+  "author": "David Morato",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/0xdavidmorato/tangle/issues"
+    "url": "https://github.com/0xdavidmorato/english-studio/issues"
   },
-  "homepage": "https://github.com/0xdavidmorato/tangle#readme",
-  "description": "",
+  "homepage": "https://github.com/0xdavidmorato/english-studio#readme",
+  "description": "Plataforma para estudar e treinar inglês (Listening, Speaking, Reading e Writing) com quizzes de evolução e certificado pedagógico em PDF.",
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",

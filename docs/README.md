@@ -1,40 +1,24 @@
-# TANGLE
+# Documentação — English Studio
 
-Interactive knowledge visualization platform.
+Documentação oficial do **English Studio**: plataforma para estudar e treinar
+inglês através de um grafo de conhecimento navegável.
 
-Toda a documentação oficial encontra-se em:
+## Índice
 
-docs/PROJECT.md
+- [`PROJECT.md`](./PROJECT.md) — visão, missão, objetivos e princípios.
+- [`CHANGELOG.md`](./CHANGELOG.md) — registo de alterações importantes.
+- [`DECISIONS.md`](./DECISIONS.md) — decisões arquiteturais e respetiva justificação.
+- [`IDEAS.md`](./IDEAS.md) — ideias futuras ainda por aprovar.
+- [`ASSESSMENT_RULES.md`](./ASSESSMENT_RULES.md) — regras de avaliação, quizzes e certificado.
+- [`ENGINE_RULES.md`](./ENGINE_RULES.md) — comportamento da `EnglishStudioEngine`.
+- [`architecture/ARCHITECTURE.md`](./architecture/ARCHITECTURE.md) — arquitetura técnica.
+- [`architecture/DOMAIN.md`](./architecture/DOMAIN.md) — conceitos do domínio (grafo).
+- [`design/UX.md`](./design/UX.md) — experiência de utilização.
+- [`design/STYLE_GUIDE.md`](./design/STYLE_GUIDE.md) — direção visual.
+- [`design/MOODBOARD.md`](./design/MOODBOARD.md) — intenção emocional.
+- [`design/REFERENCES.md`](./design/REFERENCES.md) — referências visuais.
 
-Antes de alterar qualquer parte do sistema consulte:
+## Princípio orientador
 
-- PROJECT.md
-- ARCHITECTURE.md
-- DECISIONS.md
-- DOMAIN.md
-- ENGINE_RULES.md
-- ASSESSMENT_RULES.md
-
-A documentação é a fonte de verdade do projeto.
-
-## Execução local
-
-`npm run dev`
-
-## Validação antes de publicar
-
-`npm test` verifica as regras de domínio e `npm run typecheck` confirma os
-contratos TypeScript. Para validar a experiência no browser — teclado, foco,
-movimento pausado, progresso, tabelas, acessibilidade e ecrã pequeno — execute:
-
-`npm run test:e2e`
-
-Na primeira execução, instale o browser de teste com
-`npx playwright install chromium`.
-
-## Versão publicada
-
-https://0xdavidmorato.github.io/tangle/
-
-O deploy é executado automaticamente por GitHub Actions após cada push para
-`main`.
+`PROJECT.md` é a especificação oficial. Em caso de conflito entre documentos,
+`PROJECT.md` e as decisões em `DECISIONS.md` prevalecem.

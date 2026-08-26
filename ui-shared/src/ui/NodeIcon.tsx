@@ -10,7 +10,8 @@ export function NodeIcon({
   clusterIndex,
   nodeIndex,
   size,
-}: NodeIconProps) {
+  iconName,
+}: NodeIconProps & { iconName?: string }) {
   const common = {
     fill: "none",
     stroke: "currentColor",
@@ -18,6 +19,59 @@ export function NodeIcon({
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
+
+  // If an explicit iconName is provided, render a semantic icon for known pillars
+  if (iconName) {
+    const scale = size / 24;
+    // Simple SVG glyphs for pillars
+    if (iconName.startsWith("listening")) {
+      return (
+        <g className="node-icon" transform={`scale(${scale})`}>
+          {/* Headphones */}
+          <path {...common} d="M-8 0v6a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6v-6" />
+          <rect x="-10" y="-2" width="4" height="8" rx="1" {...common} />
+          <rect x="10" y="-2" width="4" height="8" rx="1" {...common} />
+        </g>
+      );
+    }
+
+    if (iconName.startsWith("speaking")) {
+      return (
+        <g className="node-icon" transform={`scale(${scale})`}>
+          {/* Microphone */}
+          <rect x={-3} y={-8} width={6} height={10} rx={3} {...common} />
+          <path {...common} d="M-2 4h4v2a4 4 0 0 1-4 4h0a4 4 0 0 1-4-4v-2h2" />
+        </g>
+      );
+    }
+
+    if (iconName.startsWith("reading")) {
+      return (
+        <g className="node-icon" transform={`scale(${scale})`}>
+          {/* Book */}
+          <path {...common} d="M-8 -6h12v12H-8z" />
+          <path {...common} d="M-8 -6c4 0 6 1 12 0" />
+        </g>
+      );
+    }
+
+    if (iconName.startsWith("writing")) {
+      return (
+        <g className="node-icon" transform={`scale(${scale})`}>
+          {/* Pencil */}
+          <path {...common} d="M-8 8 8-8l4 4L-4 12z" />
+          <path {...common} d="M6-6l2-2" />
+        </g>
+      );
+    }
+
+    // fallback: small circle
+    return (
+      <g className="node-icon" transform={`scale(${size / 24})`}>
+        <circle cx="0" cy="0" r="6" {...common} />
+      </g>
+    );
+  }
 
   if (nodeIndex > 0) {
     const variant = (nodeIndex - 1) % 4;

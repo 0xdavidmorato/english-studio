@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "ui-shared/src",
     "outDir": ".test-dist",
     "noEmit": false,
     "declaration": false,
@@ -13,6 +13,5 @@
     "types": ["node"],
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/ui"]
+  "include": ["ui-shared/src/**/*.ts", "ui-shared/src/**/*.tsx"]
 }

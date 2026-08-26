@@ -5,35 +5,38 @@ altera o Graph, a Engine ou o conteúdo.
 
 ## Composição
 
-- A rede é o elemento dominante do ecrã; não deve parecer um diagrama radial
-  isolado sobre um fundo vazio.
-- A composição é assimétrica, larga e estratificada: núcleo, ramos, relações e
-  partículas vivem em planos distintos.
-- Informação de apoio ocupa zonas calmas, com baixo contraste, e nunca compete
-  com a leitura do organismo.
+- Fundo escuro profundo com gradientes subtis (cian/azul).
+- Rede central (grafo) como protagonista; a identidade no cabeçalho.
+- Cartões e painéis em sobreposição translúcida com `backdrop-filter`.
 
-## Luz e cor
+## Cor
 
-- Base azul-noite, profunda mas legível; evitar preto absoluto como superfície
-  predominante.
-- Ciano representa continuidade e estrutura; ouro, violeta, verde e coral
-  aparecem como acentos locais, não como blocos equivalentes de cor.
-- O brilho é seletivo: foco, energia e relações relevantes recebem o maior
-  contraste; contexto perde saturação antes de perder presença.
-- Névoa, vinheta e bloom devem sugerir profundidade sem reduzir o contraste de
-  texto e controlos.
+Tokens em `ui-shared/src/design/tokens.ts`:
+
+- `background` `#020711` — base.
+- `ink` `#e8f8fb` — texto principal.
+- `muted` `#7695a4` — texto secundário.
+- `cyan` / `cyan700` — acentos e relevo.
+- `success` `#62dc9b`, `warning` `#f5c84e`, `info` `#58eff7` — estados de avaliação.
+
+## Tipografia
+
+- `fontFamily`: Inter, com fallback de sistema.
+- Escala base `16px`; escala de tipos `[12, 14, 16, 20, 24, 32, 48]`.
+- Usar espaçamento generoso nas palavras e nos cartões.
+
+## Formas e raios
+
+- `radii.card: 12`, `radii.round: 9999`, `radii.small: 6`.
+- Nós circulares; cartões com cantos suaves.
 
 ## Movimento
 
-- O núcleo respira, os filamentos propagam energia e o fundo deriva devagar.
-- As velocidades não devem coincidir; pequenos desfasamentos evitam uma leitura
-  mecânica em loop.
-- Movimento decorativo nunca representa uma Connection de domínio e respeita o
-  controlo de pausa e `prefers-reduced-motion`.
+- `motion.easeOrganic: cubic-bezier(0.22, 0.8, 0.25, 1)`.
+- Animações com propósito (foco, ligação, conclusão) e ritmo moderado.
 
-## Tipografia e interface
+## Acessibilidade
 
-- Tipografia curta, pequena e precisa nos elementos de contexto.
-- Painéis são planos translúcidos integrados na cena, não cartões genéricos.
-- O conteúdo em foco tem legibilidade prioritária; a rede continua visível,
-  mas recua para o plano contextual.
+- Contraste adequado sobre o fundo escuro.
+- Estados de foco visíveis e navegação por teclado.
+- Suporte a `prefers-reduced-motion`.

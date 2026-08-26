@@ -19,7 +19,7 @@ interface ContentPanelProps {
 }
 
 function focusedTitle(node: PresentationNode) {
-  return node.clusterName === "Interligações"
+  return node.clusterName === "Conexões"
     ? `${node.clusterName}: ${node.name}`
     : `${node.name} de ${node.clusterName}`;
 }

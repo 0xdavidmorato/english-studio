@@ -1,3 +1,12 @@
+---
+title: "Speaking"
+id: "speaking.overview"
+skill: "speaking"
+level: "A2"
+duration: ""
+type: "overview"
+---
+
 # Speaking
 
 Bem-vindo ao módulo de Speaking.

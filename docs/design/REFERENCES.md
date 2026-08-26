@@ -1,41 +1,22 @@
-REFERENCES.md: imagens de inspiração, links, notas e referências.
-
 # REFERENCES.md
 
-# Referências Visuais
+Referências visuais e notas de inspiração para a direção visual do English Studio.
 
-## Mapa Mental
+## Referências visuais
 
-![](./assets/mapa-mental-tangle.jpg)
+- Grafos de conhecimento interativos (visualização de redes e relações).
+- Interfaces escuras "pós-orgânicas" com luz suave e profundidade.
+- Paletas escuras com acentos ciano/esverdeados e estados de sucesso verde.
 
----
+## Referências de produto
 
-## Conceito Visual
+- Apps de aprendizagem de idiomas com trilhos e progresso.
+- Ambientes de estudo imersivos com movimento calmo.
 
-![](./assets/tangle-visual-concept-v1.png)
+## Imagens
 
----
+- `../assets/logo_david.png` — logótipo central da experiência.
 
-## Objetivos Visuais
-
-Queremos transmitir:
-
-- elegância
-- profundidade
-- calma
-- inteligência
-- tecnologia
-- organismo vivo
-- rede neural
-- conhecimento
-
-Mostra as referências reais.
-
-Por exemplo:
-
-Unreal Engine UI
-Neural Networks
-Figma
-Apple VisionOS
-Interfaces científicas
-A tua imagem de conceito
+> Nota: as imagens de inspiração do modelo de referência foram removidas; este
+> documento é a referência visual própria do English Studio e deve evoluir com
+> novos exemplos.

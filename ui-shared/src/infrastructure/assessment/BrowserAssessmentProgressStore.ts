@@ -4,7 +4,7 @@ import {
   type QuizResult,
 } from "../../assessment";
 
-export const ASSESSMENT_PROGRESS_STORAGE_KEY = "tangle.assessment-progress.v1";
+export const ASSESSMENT_PROGRESS_STORAGE_KEY = "english.studio.assessment-progress.v1";
 
 type StorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 

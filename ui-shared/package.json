@@ -9,6 +9,6 @@
     "react": "^18 || ^19"
   },
   "keywords": ["english-studio","ui","shared"],
-  "description": "Shared UI components and core logic extracted from the Tangle scaffold for reuse between web and mobile",
+  "description": "Shared UI components and core logic for the English Studio platform, shared between the Next.js web app and the Expo mobile app.",
   "license": "MIT"
 }

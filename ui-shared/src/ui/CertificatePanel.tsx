@@ -12,15 +12,15 @@ function downloadCertificate(details: CertificateDetails) {
   const date = new Intl.DateTimeFormat("pt-PT", { dateStyle: "long" }).format(details.issuedAt);
   pdf.setFillColor(3, 17, 32); pdf.rect(0, 0, 297, 210, "F");
   pdf.setDrawColor(76, 225, 239); pdf.setLineWidth(1.3); pdf.rect(12, 12, 273, 186);
-  pdf.setTextColor(103, 235, 244); pdf.setFontSize(13); pdf.text("TANGLE · TUDO ESTA LIGADO", 148.5, 43, { align: "center" });
+  pdf.setTextColor(103, 235, 244); pdf.setFontSize(13); pdf.text("ENGLISH STUDIO", 148.5, 43, { align: "center" });
   pdf.setTextColor(238, 253, 255); pdf.setFontSize(30); pdf.text("Certificado Pedagogico", 148.5, 66, { align: "center" });
   pdf.setTextColor(161, 194, 202); pdf.setFontSize(12); pdf.text("Certifica-se que", 148.5, 88, { align: "center" });
   pdf.setTextColor(255, 255, 255); pdf.setFontSize(25); pdf.text(details.participantName, 148.5, 106, { align: "center", maxWidth: 230 });
-  pdf.setTextColor(161, 194, 202); pdf.setFontSize(12); pdf.text(`concluiu os ${details.completedQuizCount} quizzes da formacao TANGLE`, 148.5, 126, { align: "center" }); pdf.text(`com media final de ${details.overallScore.toFixed(1)} valores em 10.`, 148.5, 135, { align: "center" });
+  pdf.setTextColor(161, 194, 202); pdf.setFontSize(12); pdf.text(`concluiu os ${details.completedQuizCount} quizzes da formacao English Studio`, 148.5, 126, { align: "center" }); pdf.text(`com media final de ${details.overallScore.toFixed(1)} valores em 10.`, 148.5, 135, { align: "center" });
   pdf.setTextColor(103, 235, 244); pdf.setFontSize(10); pdf.text(`Emitido em ${date}`, 148.5, 169, { align: "center" });
   pdf.setTextColor(110, 145, 153); pdf.setFontSize(8); pdf.text("Certificado pedagogico emitido localmente · nao verificavel externamente", 148.5, 184, { align: "center" });
   const safeName = details.participantName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase();
-  pdf.save(`certificado-tangle-${safeName}.pdf`);
+  pdf.save(`certificado-english-studio-${safeName}.pdf`);
 }
 
 export function CertificatePanel({ detailsFor, onClose }: CertificatePanelProps) {

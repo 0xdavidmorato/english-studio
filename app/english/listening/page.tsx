@@ -3,8 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import MarkdownContent from '../../components/MarkdownContent';
-import { colors, AssessmentSession } from '@english-studio/ui-shared';
-import { QuizPanel } from '../../../ui-shared/src/ui/QuizPanel';
+import { AssessmentSession, colors, QuizPanel } from '@english-studio/ui-shared';
 
 export default function ListeningPage(){
   const sampleQuiz: any = {

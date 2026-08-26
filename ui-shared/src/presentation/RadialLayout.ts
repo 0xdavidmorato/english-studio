@@ -29,13 +29,10 @@ interface ClusterVisual {
 }
 
 const clusterVisuals: Readonly<Record<string, ClusterVisual>> = {
-  "boa-empresa": { x: 260, y: 225, colorIndex: 0 },
-  "bom-negocio": { x: 780, y: 225, colorIndex: 1 },
-  "bom-funcionario": { x: 780, y: 435, colorIndex: 2 },
-  "bom-ordenado": { x: 520, y: 540, colorIndex: 3 },
-  "boas-praticas": { x: 260, y: 435, colorIndex: 4 },
-  "boas-pessoas": { x: 520, y: 120, colorIndex: 5 },
-  "interligacoes": { x: 520, y: 495, colorIndex: 6 },
+  "listening": { x: 200, y: 330, colorIndex: 0 },
+  "speaking": { x: 520, y: 140, colorIndex: 1 },
+  "reading": { x: 840, y: 330, colorIndex: 2 },
+  "writing": { x: 520, y: 520, colorIndex: 3 },
 };
 
 const fallbackClusterVisual: ClusterVisual = {
@@ -86,12 +83,7 @@ export function createRadialLayout(
     const satelliteAngle = clusterAngle + fanPosition * fanSpread;
     const standardSatelliteRadius =
       128 + Math.max(0, satelliteCount - 2) * 10 + (nodeIndex % 2) * 11;
-    const satelliteRadius =
-      cluster?.id === "bom-funcionario"
-        ? 88 + (nodeIndex % 2) * 8
-        : cluster?.id === "interligacoes"
-          ? 72
-          : standardSatelliteRadius;
+    const satelliteRadius = standardSatelliteRadius;
 
     return {
       ...base,

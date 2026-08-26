@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 
 type Point = { x: number; y: number };
 
-import { ContentPanel } from '../../ui-shared/src/ui/ContentPanel';
-import { AssessmentSession } from '../../ui-shared/src/assessment/AssessmentSession';
+import { AssessmentSession, ContentPanel } from '@english-studio/ui-shared';
 
 export default function NetworkViewClient() {
   const router = useRouter();
@@ -162,7 +161,7 @@ export default function NetworkViewClient() {
         </defs>
       </svg>
 
-      <div ref={coreRef} className="tangle-core" role="img" aria-label="English core" style={{ pointerEvents: 'all' }}>
+      <div ref={coreRef} className="studio-core" role="img" aria-label="English core" style={{ pointerEvents: 'all' }}>
         <div className="core-orb">
           <span className="core-word-core">ENGLISH</span>
         </div>

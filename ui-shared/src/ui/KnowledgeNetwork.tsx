@@ -33,43 +33,13 @@ interface KnowledgeNetworkProps {
 const palette = ["cyan", "gold", "orange", "violet", "green", "rose", "coral"];
 
 const connectionBends: Readonly<Record<string, number>> = {
-  "empresa-pessoas": 0.1,
-  "pessoas-negocio": 0.1,
-  "funcionario-ordenado": 0.1,
-  "praticas-empresa": 0.1,
-  "funcionario-negocio": -0.1,
-  "praticas-ordenado": -0.1,
+  "listen-speak": 0.12,
+  "speak-read": 0.12,
+  "read-write": 0.12,
+  "write-listen": 0.12,
 };
 
-interface CoreWordProps {
-  readonly value: string;
-  readonly startDelay: number;
-  readonly className: string;
-}
-
-function CoreWord({ value, startDelay, className }: CoreWordProps) {
-  return (
-    <g className={`core-word ${className}`} aria-hidden="true">
-      <text className="core-title">
-        <textPath href="#core-word-arc" startOffset="50%" textAnchor="middle">
-          {Array.from(value).map((letter, index) => (
-            <tspan key={`${letter}-${index}`} opacity="0">
-              <animate
-                attributeName="opacity"
-                values="0;1;1;0"
-                keyTimes="0;0.06;0.82;1"
-                dur="15s"
-                begin={`${(startDelay + index * 0.085).toFixed(3)}s`}
-                repeatCount="indefinite"
-              />
-              {letter}
-            </tspan>
-          ))}
-        </textPath>
-      </text>
-    </g>
-  );
-}
+// CoreWord legacy animation was removed in favor of the central logo + label.
 
 export function KnowledgeNetwork({
   nodes,
@@ -91,7 +61,7 @@ export function KnowledgeNetwork({
   const clusterRoots = clusters.map((cluster, index) => ({
     cluster,
     root: positionedClusters[index]!,
-  })).filter(({ cluster }) => cluster.id !== "interligacoes");
+  }));
 
   return (
     <div className="network-shell">
@@ -101,9 +71,9 @@ export function KnowledgeNetwork({
         role="group"
         aria-labelledby="network-title network-description"
       >
-        <title id="network-title">Rede de conhecimento TANGLE</title>
+        <title id="network-title">Rede de conhecimento English Studio</title>
         <desc id="network-description">
-          Explore os conceitos e as influências entre os pilares da organização.
+          Explore as habilidades e as ligações entre elas na aprendizagem do inglês.
         </desc>
         <defs>
           <radialGradient id="core-gradient">
@@ -123,22 +93,6 @@ export function KnowledgeNetwork({
             <stop offset="48%" stopColor="#0d405c" stopOpacity="0.08" />
             <stop offset="100%" stopColor="#020814" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="core-word-tangle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#d9ffff" />
-            <stop offset="52%" stopColor="#58eff7" />
-            <stop offset="100%" stopColor="#9effff" />
-          </linearGradient>
-          <linearGradient id="core-word-emaranhado-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fff0a8" />
-            <stop offset="55%" stopColor="#ffc75c" />
-            <stop offset="100%" stopColor="#ffe2a0" />
-          </linearGradient>
-          <linearGradient id="core-word-teia-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ffd3ef" />
-            <stop offset="52%" stopColor="#ee78cf" />
-            <stop offset="100%" stopColor="#d7b5ff" />
-          </linearGradient>
-          <path id="core-word-arc" d="M 471 339 Q 520 308 569 339" />
         </defs>
 
         <ellipse
@@ -305,7 +259,7 @@ export function KnowledgeNetwork({
             const path = createCurvedPath(
               source,
               target,
-              connectionBends[connection.id] ?? -0.12,
+              connectionBends[connection.id] ?? 0.12,
             );
             return (
               <g key={connection.id}>
@@ -333,10 +287,10 @@ export function KnowledgeNetwork({
         </g> : null}
 
         <g
-          className="tangle-core"
+          className="studio-core"
           role="button"
           tabIndex={0}
-          aria-label="Mostrar os pilares principais"
+          aria-label="Revelar as quatro habilidades a partir do Fluency"
           onClick={onCoreFocus}
           onKeyDown={(event) => {
             if (event.key === "Enter" || event.key === " ") {
@@ -345,24 +299,35 @@ export function KnowledgeNetwork({
             }
           }}
         >
-          <circle cx={networkCenter.x} cy={networkCenter.y} r="110" fill="url(#core-gradient)" />
-          <circle cx={networkCenter.x} cy={networkCenter.y} r="66" className="core-pulse-ring ring-one" />
-          <circle cx={networkCenter.x} cy={networkCenter.y} r="82" className="core-pulse-ring ring-two" />
+          {/* outer glow and background */}
+          <circle cx={networkCenter.x} cy={networkCenter.y} r="120" fill="url(#core-gradient)" />
+          <circle cx={networkCenter.x} cy={networkCenter.y} r="88" className="core-pulse-ring ring-one" />
+          <circle cx={networkCenter.x} cy={networkCenter.y} r="108" className="core-pulse-ring ring-two" />
+
+          {/* core orb */}
           <circle
             cx={networkCenter.x}
             cy={networkCenter.y}
-            r="54"
+            r="58"
             className="core-orb"
             filter="url(#core-glow)"
           />
-          <CoreWord value="TANGLE" startDelay={0} className="core-word-tangle" />
-          <CoreWord value="EMARANHADO" startDelay={4.35} className="core-word-emaranhado" />
-          <CoreWord value="TEIA" startDelay={9.45} className="core-word-teia" />
+
+          {/* central “Fluency” core */}
+          <g className="core-fluency" aria-hidden="true">
+            <text
+              x={networkCenter.x}
+              y={networkCenter.y}
+              textAnchor="middle"
+              className="fluency-name"
+            >
+              Fluency
+            </text>
+          </g>
         </g>
 
         {level > 0 ? <g className="cluster-hubs">
           {positionedClusters
-            .filter((cluster) => cluster.id !== "interligacoes")
             .map((cluster) => {
             const progress = assessmentByClusterId[cluster.id];
             const inwardX = networkCenter.x - cluster.x;
@@ -393,6 +358,7 @@ export function KnowledgeNetwork({
                   clusterIndex={cluster.colorIndex}
                   nodeIndex={0}
                   size={24}
+                  iconName={cluster.id}
                 />
                 <text
                   x={labelX}
@@ -422,7 +388,6 @@ export function KnowledgeNetwork({
 
         {level > 1 ? <g className="knowledge-nodes">
           {positionedNodes
-            .filter((node) => node.clusterId !== "interligacoes")
             .map((node) => {
             const assessment = assessmentByNodeId[node.id];
             const learningState = assessment?.isPassed
@@ -477,6 +442,7 @@ export function KnowledgeNetwork({
                   clusterIndex={clusterIndex}
                   nodeIndex={nodeIndex + 1}
                   size={radius * 0.92}
+                  iconName={node.id}
                 />
                 <text
                   y={radius + 24}

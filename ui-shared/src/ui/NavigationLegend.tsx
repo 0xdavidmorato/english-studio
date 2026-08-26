@@ -31,7 +31,7 @@ export function NavigationLegend({
         onClick={onCoreSelect}
       >
         <span className="legend-navigation-icon core-legend-icon" aria-hidden="true" />
-        <span>Tangle (Central)</span>
+        <span>Fluency (Central)</span>
       </button>
       {clusters.map((cluster) => {
         const clusterVisual = getClusterVisual(cluster.id);
